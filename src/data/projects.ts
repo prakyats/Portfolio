@@ -54,7 +54,7 @@ export const projects: Project[] = [
     impact: "Demonstrates real-time event handling, role-based access, and geospatial data distribution.",
     tech: ["React", "Node.js", "Fastify", "PostgreSQL", "Socket.IO", "Supabase"],
     image: safarSaathiImg,
-    github: "https://github.com/prakyats/safar-saathi",
+    github: "https://github.com/thesaiprasadrao/safar-saathi",
     details: {
       overview: "Real-time transit engine for public transport tracking.",
       problem: "High wait-time uncertainty due to lack of live bus location data.",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     impact: "Demonstrates complex state management, database schema design, and automated triggers.",
     tech: ["React", "Node.js", "Express", "MySQL", "JWT"],
     image: leadlinkCrmImg,
-    github: "https://github.com/prakyats/leadlink-crm",
+    github: "https://github.com/prakyats/lead-link-crm",
     details: {
       overview: "Streamlined sales management tool for lead prioritization.",
       problem: "Fragmented lead tracking causing missed follow-ups and lack of pipeline visibility.",
