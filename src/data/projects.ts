@@ -54,7 +54,7 @@ export const projects: Project[] = [
     impact: "Demonstrates real-time event handling, role-based access, and geospatial data distribution.",
     tech: ["React", "Node.js", "Fastify", "PostgreSQL", "Socket.IO", "Supabase"],
     image: safarSaathiImg,
-    github: "https://github.com/thesaiprasadrao/safar-saathi",
+    github: "https://github.com/prakyats/safar-saathi",
     details: {
       overview: "Real-time transit engine for public transport tracking.",
       problem: "High wait-time uncertainty due to lack of live bus location data.",

@@ -111,7 +111,7 @@ const Hero = () => {
             View Work
           </a>
           <a
-            href="/resume.pdf"
+            href="/RESUME.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-white/20 text-white px-8 py-3.5 rounded-full text-sm font-semibold hover:bg-white/10 transition-colors"
