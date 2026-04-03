@@ -1,16 +1,11 @@
 import { motion } from "framer-motion";
+import SectionWrapper from "./SectionWrapper";
 
 const About = () => {
   return (
-    <section className="relative py-28 md:py-36 mt-[-6vh] md:mt-[-8vh] max-md:mt-[-40px]">
+    <SectionWrapper id="about" className="relative py-28 md:py-36 mt-[-6vh] md:mt-[-8vh] max-md:mt-[-40px]">
       <div className="max-w-[720px] mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="transform-gpu will-change-transform text-left md:text-center"
-        >
+        <div className="transform-gpu will-change-transform text-left md:text-center">
           {/* Label */}
           <p className="text-white/25 text-[10px] md:text-xs tracking-[0.3em] uppercase mb-2">
             About
@@ -36,9 +31,9 @@ const About = () => {
           <p className="mt-4 text-white/50 text-xs md:text-sm">
             Actively looking for internship opportunities.
           </p>
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 
