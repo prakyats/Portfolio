@@ -20,9 +20,11 @@
   * {
     @apply border-stroke;
   }
+
   body {
     @apply bg-bg text-text font-sans antialiased overflow-x-hidden;
   }
+
   html {
     scroll-behavior: smooth;
   }

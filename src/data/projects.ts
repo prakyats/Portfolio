@@ -26,7 +26,7 @@ export const projects: Project[] = [
   {
     slug: "money-mentor",
     title: "Money Mentor",
-    description: "Personal finance management app for budget tracking and expense monitoring.",
+    description: "Tracks and analyzes spending patterns in real-time, helping maintain consistent budgeting without manual effort.",
     technicalImpact: "Real-time expense tracking with Chart.js visualization and JWT-based auth",
     impact: "Demonstrates data visualization, secure user authentication, and full-stack integration.",
     tech: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
@@ -49,7 +49,7 @@ export const projects: Project[] = [
   {
     slug: "safar-saathi",
     title: "Safar Saathi",
-    description: "Real-time bus tracking system for coordinated public transit management.",
+    description: "Eliminates transit uncertainty by providing live, WebSocket-driven bus locations for passengers and drivers.",
     technicalImpact: "Live bus tracking using WebSockets with GPS updates and Supabase sync",
     impact: "Demonstrates real-time event handling, role-based access, and geospatial data distribution.",
     tech: ["React", "Node.js", "Fastify", "PostgreSQL", "Socket.IO", "Supabase"],
@@ -72,7 +72,7 @@ export const projects: Project[] = [
   {
     slug: "leadlink-crm",
     title: "LeadLink CRM",
-    description: "Sales management system built for lead prioritization and pipeline tracking.",
+    description: "Prevents lead drop-off in sales funnels through automated inactivity triggers and centralized pipeline visibility.",
     technicalImpact: "Sales pipeline with stage tracking, inactivity alerts, and MySQL relations",
     impact: "Demonstrates complex state management, database schema design, and automated triggers.",
     tech: ["React", "Node.js", "Express", "MySQL", "JWT"],

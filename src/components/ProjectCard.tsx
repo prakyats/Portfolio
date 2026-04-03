@@ -2,16 +2,18 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Project } from "../data/projects";
 
-export const ProjectCard = ({ 
-  project, 
-  isActive, 
+export const ProjectCard = ({
+  project,
+  isActive,
   isDimmed,
+  isFirst,
   onMouseEnter,
   onMouseLeave
-}: { 
-  project: Project; 
-  isActive: boolean; 
+}: {
+  project: Project;
+  isActive: boolean;
   isDimmed: boolean;
+  isFirst?: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) => {
@@ -23,14 +25,14 @@ export const ProjectCard = ({
   const smoothY = useSpring(y, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (window.innerWidth < 768) return; 
+    if (window.innerWidth < 768) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     const shiftX = ((e.clientX - centerX) / (rect.width / 2)) * 6;
     const shiftY = ((e.clientY - centerY) / (rect.height / 2)) * 6;
-    
+
     x.set(shiftX);
     y.set(shiftY);
   };
@@ -53,10 +55,10 @@ export const ProjectCard = ({
           opacity: isDimmed ? 0.6 : 1,
           borderColor: isActive ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)",
         }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="project-card group relative bg-surface/30 rounded-[24px] overflow-hidden border border-white/10 will-change-transform flex flex-col h-full cursor-pointer shadow-sm"
+        transition={{ duration: 0.4, ease: "easeOut", ...(isFirst ? { delay: 0.2 } : {}) }}
+        className={`project-card group relative bg-surface/30 rounded-[24px] overflow-hidden border border-white/10 flex flex-col h-full cursor-pointer shadow-sm transform-gpu will-change-transform ${isFirst ? 'scale-[1.01]' : ''}`}
       >
-        <div 
+        <div
           className="aspect-video overflow-hidden relative shrink-0"
           onMouseMove={handleMouseMove}
         >
@@ -72,32 +74,32 @@ export const ProjectCard = ({
         </div>
 
         <div className="p-8 md:p-10 flex flex-col flex-grow">
-          <h3 className="text-2xl md:text-3xl font-display text-text">
+          <h3 className="text-lg md:text-xl font-medium tracking-tight text-white mb-1">
             {project.title}
           </h3>
-          
-          <p className="mt-2 text-sm text-text-primary/90 font-medium leading-relaxed tracking-tight">
+
+          <p className="text-white/50 text-sm font-medium tracking-tight mb-4">
             {project.technicalImpact}
           </p>
 
-          <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-xs text-muted/50 uppercase tracking-widest font-medium">
+          <p className="text-white/70 leading-relaxed">
+            {project.description}
+          </p>
+
+          <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-white/40 text-[10px] md:text-sm tracking-wide font-medium">
             {project.tech.map((t, idx) => (
               <span key={t} className="flex items-center">
                 {t}
-                {idx < project.tech.length - 1 && <span className="ml-2 text-muted/30">•</span>}
+                {idx < project.tech.length - 1 && <span className="ml-2 opacity-30">•</span>}
               </span>
             ))}
           </div>
 
-          <p className="mt-2 text-sm md:text-base text-muted/80 line-clamp-2 leading-relaxed">
-            {project.description}
-          </p>
-
           <div className="flex mt-8">
-            <span className="relative group/cta inline-flex items-center gap-2 text-xs md:text-sm text-text/80 font-medium group-hover:text-text transition-colors duration-300">
+            <span className="relative group/cta inline-flex items-center gap-2 text-xs md:text-sm text-white/80 font-medium hover:text-white transition group-hover:text-white duration-300">
               <span className="relative pb-0.5">
                 View Project
-                <span className="absolute left-0 bottom-0 w-full h-[1px] bg-text/60 origin-left scale-x-0 group-hover/cta:scale-x-100 transition-transform duration-300 ease-out" />
+                <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white/60 origin-left scale-x-0 group-hover/cta:scale-x-100 transition-transform duration-300 ease-out" />
               </span>
               <span className="transition-transform duration-300 ease-out group-hover/cta:translate-x-1">→</span>
             </span>

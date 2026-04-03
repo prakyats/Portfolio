@@ -88,7 +88,7 @@ const Hero = () => {
             fontFamily: 'Georgia, serif',
             textShadow: '0 2px 20px rgba(0,0,0,0.6)'
           }}
-          className="text-3xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] text-white mb-4"
+          className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.05] text-white mb-4"
         >
           I build Systems <br className="hidden md:block" /> that actually work.
         </motion.h1>
@@ -106,7 +106,7 @@ const Hero = () => {
         >
           <a
             href="#work"
-            className="bg-white text-black px-8 py-3.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="bg-white text-black px-8 py-3.5 rounded-full text-sm font-medium tracking-tight hover:opacity-90 transition-opacity"
           >
             View Work
           </a>
@@ -114,7 +114,7 @@ const Hero = () => {
             href="/RESUME.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-white/20 text-white px-8 py-3.5 rounded-full text-sm font-semibold hover:bg-white/10 transition-colors"
+            className="border border-white/20 text-white px-8 py-3.5 rounded-full text-sm font-medium tracking-tight hover:bg-white/10 transition-colors"
           >
             Resume
           </a>
