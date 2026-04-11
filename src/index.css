@@ -34,6 +34,21 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    @apply antialiased scroll-smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: dark;
+  }
+
+  /* Smooth performance for backdrop filters */
+  .backdrop-blur-md {
+    transform: translateZ(0);
+    will-change: backdrop-filter;
+  }
+
+  /* Smooth color transitions for interactive elements */
+  a, button, span {
+    @apply transition-colors duration-300;
   }
 }

@@ -4,11 +4,18 @@ import { projects } from "../data/projects";
 import { motion, Variants, useScroll, useTransform } from "framer-motion";
 
 const revealVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    scale: 1,
+    transition: { 
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
+      mass: 1,
+      duration: 0.8 
+    }
   }
 };
 
@@ -17,7 +24,7 @@ const Section = ({ title, content, children }: { title: string; content?: string
     variants={revealVariants}
     initial="hidden"
     whileInView="visible"
-    viewport={{ once: true, margin: "-10% 0px" }}
+    viewport={{ once: true, margin: "-5% 0px" }}
     className="py-10 md:py-14 border-t border-white/5 first:border-t-0"
   >
     <h2 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-6 font-medium">
@@ -41,7 +48,12 @@ const ProjectDetail = () => {
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.5]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Instant jump to top
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' as any // Force instant scroll
+    });
   }, [slug]);
 
   const project = projects.find(p => p.slug === slug);
@@ -58,29 +70,41 @@ const ProjectDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg text-text selection:bg-surface/50 overflow-x-hidden relative flex flex-col">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen bg-bg text-text selection:bg-surface/50 overflow-x-hidden relative flex flex-col"
+    >
       {/* Hero Header Image */}
-      <div className="w-full h-[40vh] md:h-[45vh] lg:h-[50vh] relative overflow-hidden bg-surface/10 ring-1 ring-white/5">
+      <div className="w-full h-[40vh] md:h-[45vh] lg:h-[50vh] relative overflow-hidden bg-surface/10 ring-1 ring-white/5 shadow-2xl">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0"
+          className="absolute inset-0 transform-gpu will-change-transform"
         >
           <img 
             src={project.image} 
             alt={project.title} 
-            className="w-full h-full object-cover brightness-[0.85] saturate-[1.1]"
+            fetchPriority="high"
+            className="w-full h-full object-cover brightness-[0.85] saturate-[1.1] transform-gpu"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-black/30" />
         </motion.div>
         
         <div className="max-w-[1200px] mx-auto px-6 h-full relative z-20 pointer-events-none flex items-end pb-12">
-           <Link 
-            to="/" 
-            className="absolute top-8 left-4 md:top-12 md:left-6 inline-flex items-center text-xs md:text-sm text-white/50 hover:text-white transition-colors group pointer-events-auto backdrop-blur-md bg-black/20 px-4 py-2 rounded-full border border-white/10"
-          >
-            <span className="mr-2 transform group-hover:-translate-x-1 transition-transform">←</span>
-            Back to Work
-          </Link>
+           <motion.div
+             initial={{ opacity: 0, x: -20 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ delay: 0.2 }}
+             className="absolute top-8 left-4 md:top-12 md:left-6 z-30 pointer-events-auto"
+           >
+             <Link 
+              to="/" 
+              className="inline-flex items-center text-xs md:text-sm text-white/50 hover:text-white transition-colors group backdrop-blur-md bg-black/20 px-4 py-2 rounded-full border border-white/10"
+            >
+              <span className="mr-2 transform group-hover:-translate-x-1 transition-transform">←</span>
+              Back to Work
+            </Link>
+          </motion.div>
         </div>
       </div>
 
@@ -174,7 +198,7 @@ const ProjectDetail = () => {
         </div>
 
       </div>
-    </div>
+    </motion.div>
   );
 };
 

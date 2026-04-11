@@ -62,16 +62,18 @@ export const ProjectCard = ({
           aria-label={`View details for ${project.title}`}
         />
         
-        <div className="aspect-video overflow-hidden relative shrink-0">
+        <div className="aspect-video overflow-hidden relative shrink-0 bg-surface/20">
           <motion.img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover will-change-transform scale-[1.01]"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover will-change-transform scale-[1.01] transform-gpu"
           />
           <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
         </div>
 
-        <div className="p-8 md:p-10 flex flex-col flex-grow relative z-20 pointer-events-none">
+        <div className="p-8 md:p-10 flex flex-col flex-grow relative z-20 pointer-events-none transform-gpu">
           <h3 className="text-lg md:text-xl font-medium tracking-tight text-white mb-1">
             {project.title}
           </h3>
