@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { projects } from "../data/projects";
 import { ProjectCard } from "./ProjectCard";
@@ -7,6 +7,7 @@ import SectionWrapper from "./SectionWrapper";
 const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { margin: "-100px", once: true });
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -39,13 +40,15 @@ const Projects = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         >
           {projects.map((project, i) => (
             <ProjectCard 
               key={project.slug} 
               project={project} 
               isFirst={i === 0}
+              onHover={(slug) => setHoveredSlug(slug)}
+              isDimmed={hoveredSlug !== null && hoveredSlug !== project.slug}
             />
           ))}
         </motion.div>

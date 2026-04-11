@@ -75,15 +75,29 @@ const ProjectDetail = () => {
           <p className="text-xl md:text-2xl text-muted leading-relaxed font-light mb-10">
             {project.description}
           </p>
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map((t) => (
-              <span
-                key={t}
-                className="px-3 py-1 bg-surface/30 border border-white/5 rounded-full text-[10px] md:text-xs text-muted tracking-wide"
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((t) => (
+                <span
+                  key={t}
+                  className="px-3 py-1 bg-surface/30 border border-white/5 rounded-full text-[10px] md:text-xs text-muted tracking-wide"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+            
+            {project.live && (
+              <a 
+                href={project.live}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-xs md:text-sm text-white/60 hover:text-white transition-colors group"
               >
-                {t}
-              </span>
-            ))}
+                <span className="border-b border-white/20 group-hover:border-white transition-colors">Live Demo</span>
+                <span className="text-[10px] transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+              </a>
+            )}
           </div>
         </motion.header>
 

@@ -24,25 +24,26 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: "money-mentor",
-    title: "Money Mentor",
-    description: "Tracks and analyzes spending patterns in real-time, helping maintain consistent budgeting without manual effort.",
-    technicalImpact: "Real-time expense tracking with Chart.js visualization and JWT-based auth",
-    impact: "Demonstrates data visualization, secure user authentication, and full-stack integration.",
-    tech: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
-    image: moneyMentorImg,
-    github: "https://github.com/prakyats/money-mentor",
+    slug: "leadlink-crm",
+    title: "LeadLink CRM",
+    description: "Prevents lead drop-off in sales funnels through automated inactivity triggers and centralized pipeline visibility.",
+    technicalImpact: "Sales pipeline with stage tracking, inactivity alerts, and MySQL relations",
+    impact: "Demonstrates complex state management, database schema design, and automated triggers.",
+    tech: ["React", "Node.js", "Express", "MySQL", "JWT"],
+    image: leadlinkCrmImg,
+    github: "https://github.com/prakyats/lead-link-crm",
+    live: "https://leadlink-app.onrender.com/",
     details: {
-      overview: "Financial dashboard consolidating transaction data into visual spending reports.",
-      problem: "Fragmented expense tracking across platforms leads to manual budgeting errors.",
-      approach: "Centralized hub using Chart.js for data visualization and pattern recognition.",
-      solution: "Full-stack React/Node.js dashboard with automatic categorization and budget limit comparisons.",
-      impact: "Implements secure JWT authentication and database encryption for sensitive financial data.",
+      overview: "Streamlined sales management tool for lead prioritization.",
+      problem: "Fragmented lead tracking causing missed follow-ups and lack of pipeline visibility.",
+      approach: "Kanban-style pipeline providing high-level view of lead stages.",
+      solution: "MySQL/Express system with automated aging-based follow-up triggers.",
+      impact: "Automation of sales stage transitions and conversion metric tracking.",
       features: [
-        "Daily expense and income categorization",
-        "Monthly budget targets with visual progress",
-        "Interactive spending reports via Chart.js",
-        "Secure registration and login with JWT"
+        "Visual drag-and-drop Kanban pipeline",
+        "Automated inactivity-based follow-up alerts",
+        "Direct sales stage conversion analytics",
+        "Secure role-based visibility controls"
       ]
     }
   },
@@ -55,6 +56,7 @@ export const projects: Project[] = [
     tech: ["React", "Node.js", "Fastify", "PostgreSQL", "Socket.IO", "Supabase"],
     image: safarSaathiImg,
     github: "https://github.com/prakyats/safar-saathi",
+    live: "prakyats.me",
     details: {
       overview: "Real-time transit engine for public transport tracking.",
       problem: "High wait-time uncertainty due to lack of live bus location data.",
@@ -70,25 +72,26 @@ export const projects: Project[] = [
     }
   },
   {
-    slug: "leadlink-crm",
-    title: "LeadLink CRM",
-    description: "Prevents lead drop-off in sales funnels through automated inactivity triggers and centralized pipeline visibility.",
-    technicalImpact: "Sales pipeline with stage tracking, inactivity alerts, and MySQL relations",
-    impact: "Demonstrates complex state management, database schema design, and automated triggers.",
-    tech: ["React", "Node.js", "Express", "MySQL", "JWT"],
-    image: leadlinkCrmImg,
-    github: "https://github.com/prakyats/lead-link-crm",
+    slug: "money-mentor",
+    title: "Money Mentor",
+    description: "Tracks and analyzes spending patterns in real-time, helping maintain consistent budgeting without manual effort.",
+    technicalImpact: "Real-time expense tracking with Chart.js visualization and JWT-based auth",
+    impact: "Demonstrates data visualization, secure user authentication, and full-stack integration.",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Chart.js"],
+    image: moneyMentorImg,
+    github: "https://github.com/prakyats/money-mentor",
+    live: "https://money-mentor-landing.vercel.app/",
     details: {
-      overview: "Streamlined sales management tool for lead prioritization.",
-      problem: "Fragmented lead tracking causing missed follow-ups and lack of pipeline visibility.",
-      approach: "Kanban-style pipeline providing high-level view of lead stages.",
-      solution: "MySQL/Express system with automated aging-based follow-up triggers.",
-      impact: "Automation of sales stage transitions and conversion metric tracking.",
+      overview: "Financial dashboard consolidating transaction data into visual spending reports.",
+      problem: "Fragmented expense tracking across platforms leads to manual budgeting errors.",
+      approach: "Centralized hub using Chart.js for data visualization and pattern recognition.",
+      solution: "Full-stack React/Node.js dashboard with automatic categorization and budget limit comparisons.",
+      impact: "Implements secure JWT authentication and database encryption for sensitive financial data.",
       features: [
-        "Visual drag-and-drop Kanban pipeline",
-        "Automated inactivity-based follow-up alerts",
-        "Direct sales stage conversion analytics",
-        "Secure role-based visibility controls"
+        "Daily expense and income categorization",
+        "Monthly budget targets with visual progress",
+        "Interactive spending reports via Chart.js",
+        "Secure registration and login with JWT"
       ]
     }
   }
