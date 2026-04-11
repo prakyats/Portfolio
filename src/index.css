@@ -25,6 +25,14 @@
     @apply bg-bg text-text font-sans antialiased overflow-x-hidden;
   }
 
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   html {
     scroll-behavior: smooth;
   }

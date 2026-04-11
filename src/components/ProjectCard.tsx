@@ -39,7 +39,7 @@ export const ProjectCard = ({
 
   return (
     <div 
-      className={`h-full group transition-all duration-500 ease-out ${isDimmed ? 'opacity-20 scale-[0.98] blur-[1px]' : 'opacity-100 scale-100'}`}
+      className={`h-auto md:h-full group transition-all duration-500 ease-out shrink-0 w-[85vw] md:w-full snap-center ${isDimmed ? 'opacity-20 scale-[0.98] blur-[1px]' : 'opacity-100 scale-100'}`}
       onMouseEnter={() => onHover?.(project.slug)}
       onMouseLeave={() => onHover?.(null)}
       onMouseMove={handleMouseMove}

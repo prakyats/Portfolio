@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { projects } from "../data/projects";
 import { ProjectCard } from "./ProjectCard";
@@ -8,6 +8,7 @@ const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { margin: "-100px", once: true });
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -20,10 +21,25 @@ const Projects = () => {
     },
   };
 
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+    const { scrollLeft, clientWidth } = containerRef.current;
+    const index = Math.round(scrollLeft / clientWidth);
+    setActiveIndex(index);
+  };
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (el) {
+      el.addEventListener('scroll', handleScroll, { passive: true });
+      return () => el.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
   return (
     <SectionWrapper id="work" className="py-24 md:py-48 bg-bg relative mt-12 md:mt-16">
-      <div className="max-w-[1240px] mx-auto px-6">
-        <div className="projects-header mb-16 lg:mb-24">
+      <div className="max-w-[1240px] mx-auto">
+        <div className="projects-header mb-16 lg:mb-24 px-6">
           <span className="text-[10px] md:text-xs text-white/30 uppercase tracking-[0.3em] block mb-4">
             Selected Work
           </span>
@@ -40,7 +56,7 @@ const Projects = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory hide-scrollbar px-6 md:px-0"
         >
           {projects.map((project, i) => (
             <ProjectCard 
@@ -52,8 +68,21 @@ const Projects = () => {
             />
           ))}
         </motion.div>
+
+        {/* Swipe Indicators (Mobile Only) */}
+        <div className="flex md:hidden items-center justify-center gap-2 mt-8 px-6">
+          {projects.map((_, i) => (
+            <div 
+              key={i}
+              className={`h-1 transition-all duration-300 rounded-full ${i === activeIndex ? 'w-8 bg-white' : 'w-2 bg-white/20'}`}
+            />
+          ))}
+          <span className="ml-2 text-[10px] uppercase tracking-widest text-white/20 font-medium">
+            Swipe
+          </span>
+        </div>
         
-        <div className="mt-24 pt-12 border-t border-white/5 text-center">
+        <div className="mt-24 pt-12 mx-6 border-t border-white/5 text-center">
           <p className="text-xs md:text-sm text-muted/50 uppercase tracking-[0.2em]">
             More projects coming as I continue building and learning.
           </p>

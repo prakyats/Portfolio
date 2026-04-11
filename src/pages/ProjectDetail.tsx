@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { projects } from "../data/projects";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, useScroll, useTransform } from "framer-motion";
 
 const revealVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -18,13 +18,13 @@ const Section = ({ title, content, children }: { title: string; content?: string
     initial="hidden"
     whileInView="visible"
     viewport={{ once: true, margin: "-10% 0px" }}
-    className="py-12 md:py-16 border-t border-white/5 first:border-t-0"
+    className="py-10 md:py-14 border-t border-white/5 first:border-t-0"
   >
-    <h2 className="text-xs uppercase tracking-[0.2em] text-muted mb-8 font-medium">
+    <h2 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-6 font-medium">
       {title}
     </h2>
     {content && (
-      <p className="text-lg md:text-xl text-text/80 leading-relaxed font-light">
+      <p className="text-lg md:text-xl text-text/80 leading-relaxed font-light text-pretty">
         {content}
       </p>
     )}
@@ -34,7 +34,12 @@ const Section = ({ title, content, children }: { title: string; content?: string
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { scrollY } = useScroll();
   
+  // Parallax for the hero image
+  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.5]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
@@ -53,29 +58,46 @@ const ProjectDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg text-text selection:bg-surface/50 overflow-x-hidden">
-      <div className="max-w-[800px] mx-auto px-6 py-24 md:py-32">
-        <Link 
-          to="/" 
-          className="inline-flex items-center text-sm text-muted hover:text-text transition-colors mb-20 md:mb-32 group"
+    <div className="min-h-screen bg-bg text-text selection:bg-surface/50 overflow-x-hidden relative flex flex-col">
+      {/* Hero Header Image */}
+      <div className="w-full h-[40vh] md:h-[45vh] lg:h-[50vh] relative overflow-hidden bg-surface/10 ring-1 ring-white/5">
+        <motion.div 
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="absolute inset-0"
         >
-          <span className="mr-2 transform group-hover:-translate-x-1 transition-transform">←</span>
-          Back
-        </Link>
+          <img 
+            src={project.image} 
+            alt={project.title} 
+            className="w-full h-full object-cover brightness-[0.85] saturate-[1.1]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-black/30" />
+        </motion.div>
+        
+        <div className="max-w-[1200px] mx-auto px-6 h-full relative z-20 pointer-events-none flex items-end pb-12">
+           <Link 
+            to="/" 
+            className="absolute top-8 left-4 md:top-12 md:left-6 inline-flex items-center text-xs md:text-sm text-white/50 hover:text-white transition-colors group pointer-events-auto backdrop-blur-md bg-black/20 px-4 py-2 rounded-full border border-white/10"
+          >
+            <span className="mr-2 transform group-hover:-translate-x-1 transition-transform">←</span>
+            Back to Work
+          </Link>
+        </div>
+      </div>
 
+      <div className="max-w-[800px] mx-auto px-6 py-12 md:py-16 w-full">
         <motion.header 
           variants={revealVariants}
           initial="hidden"
           animate="visible"
-          className="mb-24 md:mb-32"
+          className="mb-12 md:mb-16"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display text-text leading-[1.1] tracking-tight mb-8">
+          <h1 className="text-4xl md:text-7xl lg:text-8xl font-display text-text leading-[1.1] tracking-tight mb-8">
             {project.title}
           </h1>
-          <p className="text-xl md:text-2xl text-muted leading-relaxed font-light mb-10">
+          <p className="text-xl md:text-2xl text-muted leading-relaxed font-light mb-10 text-balance">
             {project.description}
           </p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-6">
             <div className="flex flex-wrap gap-2">
               {project.tech.map((t) => (
                 <span
@@ -89,7 +111,7 @@ const ProjectDetail = () => {
             
             {project.live && (
               <a 
-                href={project.live}
+                href={project.live.startsWith('http') ? project.live : `https://${project.live}`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-xs md:text-sm text-white/60 hover:text-white transition-colors group"
@@ -126,11 +148,11 @@ const ProjectDetail = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="py-16 md:py-24 border-t border-white/5 flex flex-wrap gap-8"
+            className="py-12 md:py-16 border-t border-white/5 flex flex-wrap gap-8"
           >
             {project.live && project.live !== "#" && (
               <a 
-                href={project.live}
+                href={project.live.startsWith('http') ? project.live : `https://${project.live}`}
                 target="_blank"
                 rel="noreferrer"
                 className="text-sm border-b border-text/20 pb-1 hover:border-text transition-colors font-medium tracking-wide"
