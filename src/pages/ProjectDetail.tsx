@@ -76,16 +76,15 @@ const ProjectDetail = () => {
       className="min-h-screen bg-bg text-text selection:bg-surface/50 overflow-x-hidden relative flex flex-col"
     >
       {/* Hero Header Image */}
-      <div className="w-full h-[40vh] md:h-[45vh] lg:h-[50vh] relative overflow-hidden bg-surface/10 ring-1 ring-white/5 shadow-2xl">
+      <div className="w-full h-[40vh] md:h-[45vh] lg:h-[50vh] relative overflow-hidden bg-surface/10 ring-1 ring-white/5">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 transform-gpu will-change-transform"
+          className="absolute inset-0"
         >
           <img 
             src={project.image} 
             alt={project.title} 
-            fetchPriority="high"
-            className="w-full h-full object-cover brightness-[0.85] saturate-[1.1] transform-gpu"
+            className="w-full h-full object-cover brightness-[0.85] saturate-[1.1]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-black/30" />
         </motion.div>
