@@ -1,39 +1,111 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import SectionWrapper from "./SectionWrapper";
 
+const LINKS = [
+  { label: "LinkedIn", href: "https://linkedin.com/in/prakyatshetty" },
+  { label: "GitHub", href: "https://github.com/prakyats" },
+  { label: "Email", href: "mailto:shettyprakyat15@gmail.com" },
+];
+
 const Contact = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const fadeUp = (delay = 0) => ({
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay } },
+  });
+
   return (
     <SectionWrapper id="contact" className="relative py-48 md:py-64 flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] rounded-full bg-white/[0.03] blur-[100px] pointer-events-none" />
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] md:w-[35vw] md:h-[35vw] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, hsla(22,90%,62%,0.06) 0%, transparent 70%)" }}
+      />
 
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto w-full">
-        <span className="text-[10px] md:text-xs text-white/30 uppercase tracking-[0.3em] block mb-8">
-          Next Steps
-        </span>
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-medium tracking-tight leading-[1.1] mb-12 text-white/90">
-          Let's build something <span className="font-serif italic text-white/50">meaningful</span> together.
-        </h2>
+      <div ref={ref} className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto w-full">
+
+        <motion.span
+          variants={fadeUp(0)}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-[10px] md:text-xs text-[hsl(var(--accent))] uppercase tracking-[0.35em] block mb-8 font-medium"
+        >
+          Let's Talk
+        </motion.span>
+
+        <motion.h2
+          variants={fadeUp(0.1)}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="font-display text-4xl sm:text-5xl md:text-7xl font-normal tracking-tight leading-[1.05] mb-6 text-white"
+        >
+          Let's build something
+          <br />
+          <span className="italic text-white/45">meaningful together.</span>
+        </motion.h2>
+
+        <motion.p
+          variants={fadeUp(0.18)}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-white/45 text-base md:text-lg mb-14 max-w-[400px] leading-relaxed"
+        >
+          Open to internship opportunities, collaborations, or just a good conversation about technology.
+        </motion.p>
 
         <motion.a
+          variants={fadeUp(0.26)}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
           href="mailto:shettyprakyat15@gmail.com"
-          whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-          whileTap={{ scale: 0.95 }}
-          className="relative group inline-flex items-center justify-center gap-3 rounded-[32px] px-8 py-4 md:px-10 md:py-5 text-xs md:text-sm text-text border border-white/10 bg-surface/20 backdrop-blur-md transition-colors duration-300"
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          className="group relative inline-flex items-center justify-center gap-3 rounded-full px-10 py-5 text-sm font-medium text-white overflow-hidden mb-20"
+          style={{
+            background: "hsla(22,90%,62%,0.1)",
+            border: "1px solid hsla(22,90%,62%,0.3)",
+          }}
         >
-          <span>Say Hi !</span>
-          <span className="text-white/30 group-hover:text-white transition-colors duration-300">↗</span>
+          <span className="relative z-10">Say Hi →</span>
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: "hsla(22,90%,62%,0.15)" }}
+          />
         </motion.a>
 
-        <div className="mt-32 w-full flex flex-col sm:flex-row items-center justify-between border-t border-white/5 pt-8 gap-8 text-[10px] md:text-xs text-white/40 uppercase tracking-[0.2em]">
-          <div className="flex items-center justify-center gap-6 sm:gap-8">
-            <a href="https://linkedin.com/in/prakyatshetty" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">LinkedIn</a>
-            <a href="https://github.com/prakyats" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">GitHub</a>
+        {/* Footer bar */}
+        <motion.div
+          variants={fadeUp(0.35)}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="w-full"
+        >
+          <div className="hr-glow mb-8" />
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-[11px] text-white/35 uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-6">
+              {LINKS.map((l) => (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  target={l.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="animated-underline hover:text-white/75 transition-colors duration-300"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+            <div className="flex items-center gap-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--accent))] glow-dot animate-pulse" />
+              <span>Available for Projects</span>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shadow-[0_0_10px_var(--accent)]" />
-            <span className="opacity-70">Available for projects</span>
-          </div>
-        </div>
+
+          <p className="mt-8 text-[10px] text-white/15 tracking-wider">
+            © 2025 Prakyat Shetty · Designed & built with care
+          </p>
+        </motion.div>
       </div>
     </SectionWrapper>
   );

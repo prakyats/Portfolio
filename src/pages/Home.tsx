@@ -7,33 +7,31 @@ import LiquidEther from "../components/LiquidEther";
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
-
-  // Background atmospheric transitions
-  const blur = useTransform(scrollYProgress, [0, 0.2, 0.5], ["blur(0px)", "blur(12px)", "blur(18px)"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8], [0.5, 0.25, 0.15]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const blur = useTransform(scrollYProgress, [0, 0.2, 0.5], ["blur(0px)", "blur(14px)", "blur(20px)"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.7], [0.55, 0.22, 0.12]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
 
   return (
     <main className="relative min-h-screen bg-bg text-text w-full overflow-x-hidden">
-      {/* Seamless Global Background */}
+      {/* Global liquid background */}
       <motion.div
         style={{ filter: blur, opacity, scale }}
         className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
       >
         <div className="w-full max-w-[1240px] h-[600px] md:h-[800px]">
           <LiquidEther
-            colors={['#5227FF', '#FF9FFC', '#B19EEF']}
-            mouseForce={20}
-            cursorSize={100}
+            colors={['#e8623a', '#c94a8a', '#6644dd']}
+            mouseForce={22}
+            cursorSize={110}
             isViscous
-            viscous={30}
+            viscous={28}
             iterationsViscous={32}
             iterationsPoisson={32}
             resolution={0.5}
             isBounce={false}
             autoDemo
-            autoSpeed={0.5}
-            autoIntensity={2.2}
+            autoSpeed={0.45}
+            autoIntensity={2.4}
             takeoverDuration={0.25}
             autoResumeDelay={3000}
             autoRampDuration={0.6}
@@ -41,7 +39,7 @@ const Home = () => {
         </div>
       </motion.div>
 
-      {/* Content Layers */}
+      {/* Content */}
       <div className="relative z-10">
         <Hero />
         <About />

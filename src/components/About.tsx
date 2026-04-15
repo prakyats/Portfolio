@@ -1,37 +1,97 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import SectionWrapper from "./SectionWrapper";
 
+const SKILLS = [
+  { label: "Frontend", items: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"] },
+  { label: "Backend", items: ["Node.js", "Express", "Fastify", "REST APIs"] },
+  { label: "Data", items: ["MySQL", "PostgreSQL", "MongoDB", "Supabase"] },
+  { label: "Tools", items: ["Git", "Docker", "JWT Auth", "WebSockets"] },
+];
+
+const STATS = [
+  { value: "3+", label: "Production Projects" },
+  { value: "6+", label: "Technologies" },
+  { value: "2027", label: "Graduating" },
+];
+
 const About = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const container = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.08 } },
+  };
+  const fadeUp = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+  };
+
   return (
     <SectionWrapper id="about" className="relative py-28 md:py-36 mt-[-6vh] md:mt-[-8vh] max-md:mt-[-40px]">
-      <div className="max-w-[720px] mx-auto px-6">
-        <div className="transform-gpu will-change-transform text-left md:text-center">
+      <div className="max-w-[900px] mx-auto px-6">
+        <motion.div
+          ref={ref}
+          variants={container}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        >
           {/* Label */}
-          <p className="text-white/25 text-[10px] md:text-xs tracking-[0.3em] uppercase mb-2">
+          <motion.p variants={fadeUp} className="text-[10px] md:text-xs text-[hsl(var(--accent))] tracking-[0.35em] uppercase mb-4 font-medium">
             About
-          </p>
+          </motion.p>
 
           {/* Heading */}
-          <h2
-            className="text-2xl md:text-3xl leading-tight text-white/90 font-medium tracking-tight mt-3 max-w-[600px] mx-auto"
-            style={{ fontFamily: "Georgia, serif" }}
+          <motion.h2
+            variants={fadeUp}
+            className="font-display text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.1] text-white mb-6 max-w-[640px]"
           >
-            I’m Prakyat — I build systems, not just interfaces.
-          </h2>
+            I'm Prakyat — I build
+            <br />
+            <span className="italic text-white/65">systems, not just interfaces.</span>
+          </motion.h2>
 
           {/* Body */}
-          <div className="mt-4 space-y-4 text-white/70 text-sm md:text-base leading-relaxed max-w-[600px] mx-auto">
-            <p>
-              I’m a Computer Science student at DSCE, Bangalore (Graduating 2027). 
-              Focused on building full-stack systems that prioritize performance and clean architecture.
-            </p>
-          </div>
+          <motion.p
+            variants={fadeUp}
+            className="text-white/60 text-base md:text-lg leading-relaxed max-w-[560px] mb-12"
+          >
+            Computer Science student at DSCE, Bangalore (Graduating 2027).
+            Focused on full-stack systems that prioritize clean architecture,
+            real performance, and actual usage in the wild — not demo-ware.
+          </motion.p>
 
-          {/* Footer Line */}
-          <p className="mt-4 text-white/50 text-xs md:text-sm">
-            Actively looking for internship opportunities.
-          </p>
-        </div>
+          {/* Stats */}
+          <motion.div variants={fadeUp} className="grid grid-cols-3 gap-6 mb-12 max-w-[480px]">
+            {STATS.map((s) => (
+              <div key={s.label} className="text-left">
+                <p className="font-display text-3xl md:text-4xl text-white font-normal mb-1">{s.value}</p>
+                <p className="text-[11px] text-white/40 uppercase tracking-widest">{s.label}</p>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div variants={fadeUp} className="hr-glow mb-12" />
+
+          {/* Skills grid */}
+          <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {SKILLS.map((group) => (
+              <div key={group.label}>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3 font-medium">{group.label}</p>
+                <ul className="space-y-2">
+                  {group.items.map((skill) => (
+                    <li key={skill} className="text-sm text-white/65 flex items-center gap-2">
+                      <span className="w-1 h-1 rounded-full bg-[hsl(var(--accent))] opacity-60 shrink-0" />
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
     </SectionWrapper>
   );
