@@ -143,3 +143,79 @@
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
+
+/* ─── Performance: CSS-class blur for LiquidEther background ────────────────
+ *
+ * Previously: filter:blur() was animated via framer-motion useTransform,
+ * running a style mutation on EVERY scroll event tick. On a fixed full-viewport
+ * element this forces a full GPU layer repaint each frame — severe jank.
+ *
+ * Now: the .liquid-bg element starts unblurred. When the hero scrolls out of
+ * view, IntersectionObserver in Home.tsx adds .bg-blurred. The browser handles
+ * this as a single CSS transition on the compositor — zero JS per frame.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.liquid-bg {
+  filter: blur(0px);
+  transition: filter 600ms ease-out;
+  will-change: filter;
+}
+.liquid-bg.bg-blurred {
+  filter: blur(16px);
+}
+
+/* ─── Performance: contain paint for section wrappers ───────────────────────
+ *
+ * contain:layout paint tells the browser that nothing inside a section
+ * affects elements outside it. This allows the browser to skip layout and
+ * paint recalculations for off-screen sections entirely.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.section-contained {
+  contain: layout paint;
+}
+
+/* ─── Premium refinements ───────────────────────────────────────────────────
+ * Added for Echoes project card + general polish pass
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* Featured card — purple-tinted border gradient override */
+.border-gradient-featured::before {
+  background: linear-gradient(
+    135deg,
+    hsla(248, 100%, 75%, 0.22),
+    hsla(248, 100%, 70%, 0.06),
+    hsla(330, 90%, 65%, 0.10)
+  );
+}
+
+/* Tech tag — mobile touch feedback */
+@media (hover: none) {
+  .tech-tag:active {
+    border-color: hsla(22, 90%, 62%, 0.45);
+    color: hsl(40, 20%, 96%);
+  }
+}
+
+/* Smoother card shadow on featured items */
+.card-featured-glow:hover {
+  box-shadow:
+    0 28px 70px hsla(0,0%,0%,0.4),
+    0 0 0 1px hsla(248, 100%, 75%, 0.12),
+    0 0 40px hsla(248, 100%, 70%, 0.08);
+}
+
+/* Section label consistency */
+.section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: hsl(var(--accent));
+  display: block;
+  font-weight: 500;
+}
+
+/* Subtle page-level vertical rhythm improvement */
+@media (min-width: 1024px) {
+  .max-w-\[1240px\] {
+    padding-inline: 0;
+  }
+}

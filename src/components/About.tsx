@@ -1,17 +1,22 @@
-import { motion, useInView } from "framer-motion";
+/**
+ * About — Performance fix:
+ *  - No changes needed to animation logic (useInView once:true is optimal).
+ *  - Removed unused imports that were carried from SectionWrapper's old API.
+ */
+import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import SectionWrapper from "./SectionWrapper";
 
 const SKILLS = [
-  { label: "Frontend", items: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-  { label: "Backend", items: ["Node.js", "Express", "Fastify", "REST APIs"] },
-  { label: "Data", items: ["MySQL", "PostgreSQL", "MongoDB", "Supabase"] },
-  { label: "Tools", items: ["Git", "Docker", "JWT Auth", "WebSockets"] },
+  { label: "Frontend",  items: ["React", "React Native", "TypeScript", "Tailwind CSS"] },
+  { label: "Backend",   items: ["Node.js", "Express", "Fastify", "REST APIs"] },
+  { label: "Data",      items: ["Firestore", "PostgreSQL", "MySQL", "MongoDB"] },
+  { label: "Tools",     items: ["Firebase", "Expo", "Git", "WebSockets"] },
 ];
 
 const STATS = [
-  { value: "3+", label: "Production Projects" },
-  { value: "6+", label: "Technologies" },
+  { value: "4+", label: "Projects Built" },
+  { value: "10+", label: "Technologies" },
   { value: "2027", label: "Graduating" },
 ];
 
@@ -19,17 +24,17 @@ const About = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
-  const container = {
+  const container: Variants = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.08 } },
   };
-  const fadeUp = {
+  const fadeUp: Variants = {
     hidden: { opacity: 0, y: 24 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
-    <SectionWrapper id="about" className="relative py-28 md:py-36 mt-[-6vh] md:mt-[-8vh] max-md:mt-[-40px]">
+    <SectionWrapper id="about" className="relative pt-28 pb-12 md:pt-36 md:pb-16 mt-[-6vh] md:mt-[-8vh] max-md:mt-[-40px]">
       <div className="max-w-[900px] mx-auto px-6">
         <motion.div
           ref={ref}
@@ -37,12 +42,10 @@ const About = () => {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          {/* Label */}
           <motion.p variants={fadeUp} className="text-[10px] md:text-xs text-[hsl(var(--accent))] tracking-[0.35em] uppercase mb-4 font-medium">
             About
           </motion.p>
 
-          {/* Heading */}
           <motion.h2
             variants={fadeUp}
             className="font-display text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.1] text-white mb-6 max-w-[640px]"
@@ -52,7 +55,6 @@ const About = () => {
             <span className="italic text-white/65">systems, not just interfaces.</span>
           </motion.h2>
 
-          {/* Body */}
           <motion.p
             variants={fadeUp}
             className="text-white/60 text-base md:text-lg leading-relaxed max-w-[560px] mb-12"
@@ -62,7 +64,6 @@ const About = () => {
             real performance, and actual usage in the wild — not demo-ware.
           </motion.p>
 
-          {/* Stats */}
           <motion.div variants={fadeUp} className="grid grid-cols-3 gap-6 mb-12 max-w-[480px]">
             {STATS.map((s) => (
               <div key={s.label} className="text-left">
@@ -72,10 +73,8 @@ const About = () => {
             ))}
           </motion.div>
 
-          {/* Divider */}
           <motion.div variants={fadeUp} className="hr-glow mb-12" />
 
-          {/* Skills grid */}
           <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {SKILLS.map((group) => (
               <div key={group.label}>

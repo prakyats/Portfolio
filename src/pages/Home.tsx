@@ -1,3 +1,19 @@
+/**
+ * Home — Performance fixes:
+ *
+ *  - REMOVED animated filter:blur() on the LiquidEther wrapper.
+ *    Animating CSS `filter` on a fixed full-viewport element forces the browser
+ *    to repaint the entire GPU layer every frame — the single biggest perf killer.
+ *    Replaced with a static CSS blur that is applied only after the user has
+ *    scrolled past the hero, using a CSS class toggle via IntersectionObserver.
+ *    The class transition uses `transition: filter 600ms` which the browser can
+ *    handle in a single composite step rather than per-scroll-event.
+ *
+ *  - opacity still driven by useTransform (cheap, compositor-only).
+ *  - scale still driven by useTransform (compositor-only).
+ *  - blur is now CSS class-based — zero JS per scroll frame for that property.
+ */
+import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Hero from "../components/Hero";
 import About from "../components/About";
@@ -6,17 +22,46 @@ import Contact from "../components/Contact";
 import LiquidEther from "../components/LiquidEther";
 
 const Home = () => {
+  const heroSentinelRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll();
-  const blur = useTransform(scrollYProgress, [0, 0.2, 0.5], ["blur(0px)", "blur(14px)", "blur(20px)"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.7], [0.55, 0.22, 0.12]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+
+  // opacity and scale are compositor-only properties — safe to animate per-frame.
+  const opacity = useTransform(scrollYProgress, [0, 0.12, 0.75], [0.55, 0.2, 0.1]);
+  const scale   = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
+  // Swap the blur via IntersectionObserver + CSS class — no per-frame JS.
+  useEffect(() => {
+    const sentinel = heroSentinelRef.current;
+    const bg = bgRef.current;
+    if (!sentinel || !bg) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          bg.classList.remove("bg-blurred");
+        } else {
+          bg.classList.add("bg-blurred");
+        }
+      },
+      { threshold: 0.1 }
+    );
+    io.observe(sentinel);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <main className="relative min-h-screen bg-bg text-text w-full overflow-x-hidden">
-      {/* Global liquid background */}
+
+      {/* Sentinel sits at the bottom of the hero — when it leaves view, blur kicks in */}
+      <div ref={heroSentinelRef} className="absolute top-[90vh] h-px w-px pointer-events-none" aria-hidden />
+
+      {/* LiquidEther background */}
       <motion.div
-        style={{ filter: blur, opacity, scale }}
-        className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
+        ref={bgRef}
+        style={{ opacity, scale }}
+        className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden liquid-bg"
       >
         <div className="w-full max-w-[1240px] h-[600px] md:h-[800px]">
           <LiquidEther

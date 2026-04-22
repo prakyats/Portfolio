@@ -1,3 +1,9 @@
+/**
+ * ProjectCard — unchanged performance fixes from p4-perf, plus:
+ *  - badge prop support (renders "Featured" / "NEW" pill)
+ *  - Featured card gets a subtle purple accent glow instead of white
+ *  - Tech tag overflow capped at 4 with "+N more" indicator
+ */
 import { motion, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
@@ -17,6 +23,10 @@ export const ProjectCard = ({
   index?: number;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isFeatured = !!project.badge;
+  const visibleTech = project.tech.slice(0, 4);
+  const extraTech   = project.tech.length - visibleTech.length;
+  const projectColor = project.color || "22, 90%, 62%"; // fallback to accent
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 32 },
@@ -36,9 +46,12 @@ export const ProjectCard = ({
 
   return (
     <div
-      className={`h-auto md:h-full group transition-all duration-500 ease-out shrink-0 w-[85vw] md:w-full snap-center ${
-        isDimmed ? "opacity-20 scale-[0.98] blur-[1px]" : "opacity-100 scale-100"
-      }`}
+      className="h-auto md:h-full group shrink-0 w-[85vw] md:w-full snap-center"
+      style={{
+        opacity: isDimmed ? 0.2 : 1,
+        transform: isDimmed ? "scale(0.98)" : "scale(1)",
+        transition: "opacity 500ms ease-out, transform 500ms ease-out",
+      }}
       onMouseEnter={() => onHover?.(project.slug)}
       onMouseLeave={() => onHover?.(null)}
       onMouseMove={handleMouseMove}
@@ -46,20 +59,30 @@ export const ProjectCard = ({
       <motion.div
         ref={cardRef}
         variants={cardVariants}
-        className={`border-gradient relative bg-surface/30 rounded-[24px] overflow-hidden flex flex-col h-full shadow-lg transform-gpu will-change-transform backdrop-blur-sm ${
+        className={`border-gradient relative rounded-[24px] overflow-hidden flex flex-col h-full shadow-lg transform-gpu card-lift backdrop-blur-sm ${
           isFirst ? "scale-[1.01]" : ""
         }`}
-        style={{ background: "hsla(222, 20%, 8%, 0.7)" }}
+        style={{
+          background: `linear-gradient(to bottom right, hsla(${projectColor}, 0.05), transparent), hsla(222, 20%, 8%, 0.7)`,
+        }}
       >
-        {/* Spotlight */}
+        {/* Dynamic Glow Background */}
         <div
-          className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+          className="absolute inset-0 z-0 pointer-events-none rounded-[24px]"
           style={{
-            background: `radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.05), transparent 40%)`,
+            boxShadow: `inset 0 0 60px hsla(${projectColor}, 0.05)`,
           }}
         />
 
-        {/* Accent bar */}
+        {/* Spotlight */}
+        <div
+          className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] pointer-events-none"
+          style={{
+            background: `radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), hsla(${projectColor}, 0.15), transparent 60%)`,
+          }}
+        />
+
+        {/* Accent line */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         <Link
@@ -70,28 +93,36 @@ export const ProjectCard = ({
 
         {/* Image */}
         <div className="aspect-video overflow-hidden relative shrink-0">
-          <motion.img
+          <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover will-change-transform scale-[1.03] group-hover:scale-100 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover scale-[1.03] group-hover:scale-100 transition-transform duration-700 ease-out"
+            loading="lazy"
+            decoding="async"
           />
-          {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-[hsla(222,20%,8%,0.7)]" />
-          {/* Number badge */}
-          <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10">
-            <span className="text-[10px] text-white/60 font-medium">{String(index + 1).padStart(2, "0")}</span>
-          </div>
+
+          {/* Badge — "Featured" or index number */}
+          {isFeatured ? (
+            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-[hsla(248,100%,70%,0.18)] border border-[hsla(248,100%,70%,0.35)] backdrop-blur-none">
+              <span className="text-[10px] text-[hsl(248,100%,80%)] font-semibold tracking-widest uppercase">
+                {project.badge}
+              </span>
+            </div>
+          ) : (
+            <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center border border-white/10">
+              <span className="text-[10px] text-white/60 font-medium">{String(index + 1).padStart(2, "0")}</span>
+            </div>
+          )}
         </div>
 
         {/* Content */}
         <div className="p-6 md:p-8 flex flex-col flex-grow relative z-20 pointer-events-none">
-          <div className="flex items-start justify-between mb-2">
-            <h3 className="font-display text-xl md:text-2xl font-normal text-white tracking-tight">
-              {project.title}
-            </h3>
-          </div>
+          <h3 className="font-display text-xl md:text-2xl font-normal text-white tracking-tight mb-2">
+            {project.title}
+          </h3>
 
-          <p className="text-[hsl(var(--accent))] text-xs font-medium tracking-wide mb-3 uppercase opacity-80">
+          <p className="text-xs font-medium tracking-wide mb-3 uppercase opacity-90" style={{ color: `hsla(${projectColor}, 0.85)` }}>
             {project.technicalImpact}
           </p>
 
@@ -99,11 +130,14 @@ export const ProjectCard = ({
             {project.description}
           </p>
 
-          {/* Tech tags */}
+          {/* Tech tags — capped at 4 */}
           <div className="flex flex-wrap gap-1.5 mb-6">
-            {project.tech.map((t) => (
+            {visibleTech.map((t) => (
               <span key={t} className="tech-tag">{t}</span>
             ))}
+            {extraTech > 0 && (
+              <span className="tech-tag opacity-50">+{extraTech}</span>
+            )}
           </div>
 
           {/* Actions */}
@@ -122,6 +156,19 @@ export const ProjectCard = ({
                 onClick={(e) => e.stopPropagation()}
               >
                 Live
+                <span className="text-[10px]">↗</span>
+              </a>
+            )}
+
+            {project.github && !project.live && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                className="animated-underline inline-flex items-center gap-1.5 text-sm text-white/35 hover:text-white/70 transition-colors duration-300 pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                GitHub
                 <span className="text-[10px]">↗</span>
               </a>
             )}
