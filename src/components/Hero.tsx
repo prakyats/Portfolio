@@ -153,7 +153,7 @@ const Hero = () => {
             <div className="absolute inset-0 bg-[hsl(var(--accent))] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
           </a>
           <a
-            href="/RESUME.pdf"
+            href="https://drive.google.com/file/d/1sVaHTtBRtKNGmlivaACbb4m0CN54uQSe/view?usp=drive_link"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-white/15 text-white px-8 py-3.5 rounded-full text-sm font-medium tracking-tight hover:bg-white/[0.08] hover:border-white/30 transition-colors duration-300"
