@@ -36,7 +36,7 @@ const Contact = () => {
                 <div className="w-11 h-11 bg-bauhaus-blue flex items-center justify-center border-2 border-white shadow-hard-sm group-hover:shadow-hard-md transition-shadow duration-200">
                   <span className="font-display font-black text-white text-sm">@</span>
                 </div>
-                <span className="font-display font-bold text-lg hover:text-bauhaus-yellow transition-colors duration-200 tracking-tight uppercase">
+                <span className="font-display font-bold text-lg hover:text-bauhaus-yellow transition-colors duration-200 tracking-tight uppercase break-all">
                   shettyprakyat15@gmail.com
                 </span>
               </a>

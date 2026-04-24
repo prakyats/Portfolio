@@ -15,12 +15,15 @@
 
   * {
     @apply border-border;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   html {
     @apply antialiased scroll-smooth;
     /* Offset anchor targets so sticky nav doesn't cover them */
     scroll-padding-top: 72px;
+    overflow-x: hidden;
   }
 
   body {
@@ -28,6 +31,8 @@
     /* Removed background-attachment:fixed — causes per-scroll repaint on mobile */
     background-image: radial-gradient(#12121218 1px, transparent 1px);
     background-size: 32px 32px;
+    overflow-x: hidden;
+    width: 100%;
   }
 }
 
@@ -61,12 +66,12 @@
 /* ── Typography ───────────────────────────────────── */
 .text-display-massive {
   @apply font-black uppercase tracking-tighter leading-[0.85];
-  font-size: clamp(3.5rem, 12vw, 8.5rem);
+  font-size: clamp(2.25rem, 12vw, 8.5rem);
 }
 
 .text-display-large {
   @apply font-black uppercase tracking-tighter leading-[0.9];
-  font-size: clamp(2rem, 7vw, 5rem);
+  font-size: clamp(1.5rem, 7vw, 5rem);
 }
 
 .section-label {
