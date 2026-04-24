@@ -116,12 +116,12 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t-4 border-black px-6 py-8 flex flex-col gap-6">
+        <div className="md:hidden bg-gray-200 border-t-4 border-black px-6 py-8 flex flex-col gap-3">
           {NAV_ITEMS.map(({ label, href }) => (
             <button
               key={href}
               onClick={() => handleNav(href)}
-              className="font-display font-black uppercase text-2xl tracking-tighter text-left hover:text-bauhaus-red transition-colors"
+              className="font-display font-black uppercase text-1xl tracking-tighter text-left hover:text-bauhaus-red transition-colors"
             >
               {label}
             </button>
@@ -130,7 +130,7 @@ const Navbar = () => {
             href="https://drive.google.com/file/d/1sVaHTtBRtKNGmlivaACbb4m0CN54uQSe/view?usp=drive_link"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-bauhaus-red text-white px-8 py-4 border-4 border-black shadow-hard-sm font-display font-black uppercase tracking-widest text-sm text-center"
+            className="bg-bauhaus-red text-white px-5 py-3 border-2 border-black shadow-hard-sm font-display font-black uppercase tracking-widest text-sm text-center"
           >
             Resume ↗
           </a>

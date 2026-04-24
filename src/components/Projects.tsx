@@ -5,7 +5,7 @@ import SectionWrapper from "./SectionWrapper";
 
 const Projects = () => {
   return (
-    <SectionWrapper id="work" className="bg-white py-24 border-b-4 border-black">
+    <SectionWrapper id="work" className="bg-white pt-10 md:pt-20 pb-24 border-b-4 border-black">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
