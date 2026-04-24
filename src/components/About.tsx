@@ -58,9 +58,9 @@ const About = () => {
               {STATS.map((s, i) => (
                 <div
                   key={s.label}
-                  className={`p-5 md:p-6 ${i !== STATS.length - 1 ? "border-r-4 border-black" : ""}`}
+                  className={`p-2 md:p-6 ${i !== STATS.length - 1 ? "border-r-4 border-black" : ""}`}
                 >
-                  <p className="font-display font-black text-4xl md:text-5xl mb-1">{s.value}</p>
+                  <p className="font-display font-black text-2xl md:text-5xl mb-1">{s.value}</p>
                   <p className="font-display font-bold text-[10px] uppercase tracking-widest opacity-50 leading-tight">{s.label}</p>
                 </div>
               ))}
@@ -68,25 +68,32 @@ const About = () => {
           </div>
 
           {/* Right Column — Skill Matrix */}
-          <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {SKILLS.map((group) => (
-              <div
+              <motion.div
                 key={group.label}
-                className={`border-4 border-black p-6 md:p-8 shadow-hard-sm ${group.color} ${group.textColor}`}
+                whileHover={{ y: -6, x: -6 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className={`border-[3px] sm:border-4 border-black p-4 sm:p-6 md:p-8 shadow-hard-sm hover:shadow-hard-lg transition-all duration-200 ${group.color} ${group.textColor} cursor-default`}
               >
-                <div className="flex justify-between items-start mb-5">
-                  <h3 className="font-display font-black text-xl uppercase tracking-tighter">{group.label}</h3>
-                  <div className="w-3 h-3 border-2 border-current rounded-full opacity-60" />
+                <div className="flex justify-between items-center sm:items-start mb-3 sm:mb-5">
+                  <h3 className="font-display font-black text-base sm:text-xl uppercase tracking-tighter">{group.label}</h3>
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 border-2 border-current rounded-full opacity-60" />
                 </div>
-                <ul className="space-y-2.5">
+                {/* Mobile: horizontal chips | Desktop: vertical list */}
+                <ul className="flex flex-wrap sm:block gap-1.5 sm:space-y-2.5">
                   {group.items.map((skill) => (
-                    <li key={skill} className="font-display font-bold text-sm flex items-center gap-2.5">
-                      <div className="w-1.5 h-1.5 bg-current shrink-0" />
+                    <motion.li
+                      key={skill}
+                      whileHover={{ x: 4 }}
+                      className="font-display font-bold text-[10px] sm:text-sm flex items-center gap-1.5 sm:gap-2.5 bg-black/5 sm:bg-transparent px-2 py-1 sm:p-0 rounded-none border-[1px] border-current sm:border-0"
+                    >
+                      <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-current shrink-0" />
                       {skill}
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </motion.div>
