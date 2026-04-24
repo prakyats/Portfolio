@@ -1,88 +1,87 @@
-/**
- * About — Performance fix:
- *  - No changes needed to animation logic (useInView once:true is optimal).
- *  - Removed unused imports that were carried from SectionWrapper's old API.
- */
-import { motion, useInView, Variants } from "framer-motion";
-import { useRef } from "react";
+import { motion, Variants } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
 
 const SKILLS = [
-  { label: "Frontend",  items: ["React", "React Native", "TypeScript", "Tailwind CSS"] },
-  { label: "Backend",   items: ["Node.js", "Express", "Fastify", "REST APIs"] },
-  { label: "Data",      items: ["Firestore", "PostgreSQL", "MySQL", "MongoDB"] },
-  { label: "Tools",     items: ["Firebase", "Expo", "Git", "WebSockets"] },
+  { label: "Frontend",  items: ["React", "React Native", "TypeScript", "Tailwind CSS"], color: "bg-bauhaus-red",    textColor: "text-white" },
+  { label: "Backend",   items: ["Node.js", "Express", "Fastify", "REST APIs"],          color: "bg-bauhaus-blue",   textColor: "text-white" },
+  { label: "Data",      items: ["Firestore", "PostgreSQL", "MySQL", "MongoDB"],          color: "bg-bauhaus-yellow", textColor: "text-black" },
+  { label: "Tools",     items: ["Firebase", "Expo", "Git", "WebSockets"],                color: "bg-white",          textColor: "text-black" },
 ];
 
 const STATS = [
-  { value: "4+", label: "Projects Built" },
-  { value: "10+", label: "Technologies" },
+  { value: "4+",   label: "Projects Built" },
+  { value: "10+",  label: "Technologies" },
   { value: "2027", label: "Graduating" },
 ];
 
+const container: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+const item: Variants = {
+  hidden:   { opacity: 0, y: 20 },
+  visible:  { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
 const About = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  const container: Variants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.08 } },
-  };
-  const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
-  };
-
   return (
-    <SectionWrapper id="about" className="relative pt-28 pb-12 md:pt-36 md:pb-16 mt-[-6vh] md:mt-[-8vh] max-md:mt-[-40px]">
-      <div className="max-w-[900px] mx-auto px-6">
+    <SectionWrapper id="about" className="bg-[#EAEAEA] py-24 border-b-4 border-black">
+      <div className="max-w-7xl mx-auto px-6">
         <motion.div
-          ref={ref}
           variants={container}
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
         >
-          <motion.p variants={fadeUp} className="text-[10px] md:text-xs text-[hsl(var(--accent))] tracking-[0.35em] uppercase mb-4 font-medium">
-            About
-          </motion.p>
+          {/* Left Column */}
+          <div>
+            <motion.span variants={item} className="section-label">About Me</motion.span>
+            <motion.h2 variants={item} className="text-display-large mb-10">
+              SYSTEMS OVER<br />
+              <span className="italic text-bauhaus-red">INTERFACES.</span>
+            </motion.h2>
 
-          <motion.h2
-            variants={fadeUp}
-            className="font-display text-3xl md:text-4xl lg:text-5xl font-normal leading-[1.1] text-white mb-6 max-w-[640px]"
-          >
-            I'm Prakyat — I build
-            <br />
-            <span className="italic text-white/65">systems, not just interfaces.</span>
-          </motion.h2>
+            <motion.div variants={item} className="space-y-4 mb-10">
+              <p className="font-display font-bold text-xl leading-snug">
+                Computer Science student at DSCE, Bangalore — graduating 2027.
+              </p>
+              <p className="text-base leading-relaxed text-black/65">
+                I build full-stack systems that prioritize clean architecture,
+                real performance, and actual usage in the wild. I believe form
+                must follow function — and function must be flawless.
+              </p>
+            </motion.div>
 
-          <motion.p
-            variants={fadeUp}
-            className="text-white/60 text-base md:text-lg leading-relaxed max-w-[560px] mb-12"
-          >
-            Computer Science student at DSCE, Bangalore (Graduating 2027).
-            Focused on full-stack systems that prioritize clean architecture,
-            real performance, and actual usage in the wild — not demo-ware.
-          </motion.p>
+            {/* Stats */}
+            <motion.div variants={item} className="grid grid-cols-3 border-4 border-black bg-white shadow-hard-md">
+              {STATS.map((s, i) => (
+                <div
+                  key={s.label}
+                  className={`p-5 md:p-6 ${i !== STATS.length - 1 ? "border-r-4 border-black" : ""}`}
+                >
+                  <p className="font-display font-black text-4xl md:text-5xl mb-1">{s.value}</p>
+                  <p className="font-display font-bold text-[10px] uppercase tracking-widest opacity-50 leading-tight">{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
-          <motion.div variants={fadeUp} className="grid grid-cols-3 gap-6 mb-12 max-w-[480px]">
-            {STATS.map((s) => (
-              <div key={s.label} className="text-left">
-                <p className="font-display text-3xl md:text-4xl text-white font-normal mb-1">{s.value}</p>
-                <p className="text-[11px] text-white/40 uppercase tracking-widest">{s.label}</p>
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div variants={fadeUp} className="hr-glow mb-12" />
-
-          <motion.div variants={fadeUp} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {/* Right Column — Skill Matrix */}
+          <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {SKILLS.map((group) => (
-              <div key={group.label}>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3 font-medium">{group.label}</p>
-                <ul className="space-y-2">
+              <div
+                key={group.label}
+                className={`border-4 border-black p-6 md:p-8 shadow-hard-sm ${group.color} ${group.textColor}`}
+              >
+                <div className="flex justify-between items-start mb-5">
+                  <h3 className="font-display font-black text-xl uppercase tracking-tighter">{group.label}</h3>
+                  <div className="w-3 h-3 border-2 border-current rounded-full opacity-60" />
+                </div>
+                <ul className="space-y-2.5">
                   {group.items.map((skill) => (
-                    <li key={skill} className="text-sm text-white/65 flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-[hsl(var(--accent))] opacity-60 shrink-0" />
+                    <li key={skill} className="font-display font-bold text-sm flex items-center gap-2.5">
+                      <div className="w-1.5 h-1.5 bg-current shrink-0" />
                       {skill}
                     </li>
                   ))}
