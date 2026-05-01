@@ -45,7 +45,7 @@ const Home = () => (
         </p>
         <div className="flex gap-5 font-sans font-bold text-[11px] uppercase tracking-widest text-white/40">
           <a href="https://github.com/prakyats"       target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
-          <a href="https://linkedin.com/in/prakyat"   target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+          <a href="https://linkedin.com/in/prakyatshetty"   target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
           <a href="mailto:shettyprakyat15@gmail.com"                                             className="hover:text-white transition-colors">Email</a>
         </div>
       </div>
