@@ -6,6 +6,7 @@
  *  - Visible on scroll down, hides on fast scroll up to save space
  */
 import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
   { label: "About",    href: "#about"   },
@@ -18,6 +19,8 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen]           = useState(false);
   const [scrolled, setScrolled]           = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Observe sections; the topmost visible one is "active"
   useEffect(() => {
@@ -51,10 +54,26 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Handle scrolling to hash if present in URL
+  useEffect(() => {
+    if (location.pathname === "/" && location.hash) {
+      const target = document.querySelector(location.hash);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location]);
+
   const handleNav = (href: string) => {
     setMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname !== "/") {
+      navigate("/" + href);
+    } else {
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -67,8 +86,15 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
         {/* Wordmark */}
         <a
-          href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            if (location.pathname !== "/") {
+              navigate("/");
+            } else {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
           className="flex items-center gap-3 group"
           aria-label="Back to top"
         >
